@@ -88,6 +88,7 @@ let score = 0;
 // FONCTIONS
 // ----------------------------------------------
 
+// 1 - fonction pour intiliser le jeu et son démarrage selon mobile ou pc
 function initGame() {
 	if (
 		navigator.userAgent.match(/iPhone/i) ||
@@ -112,6 +113,7 @@ function initGame() {
 	}
 }
 
+// 2 - fonction pour dessiner la balle
 function dessineBalle() {
 	ctx.beginPath();
 	ctx.arc(x, y, rayonBalle, 0, Math.PI * 2);
@@ -119,8 +121,8 @@ function dessineBalle() {
 	ctx.fill();
 	ctx.closePath();
 }
-// dessineBalle();
 
+// 3 - fonction opur dessiner la raquette
 function dessineBarre() {
 	ctx.beginPath();
 	ctx.rect(barreX, canvas.height - barreHeight, barreWidth, barreHeight);
@@ -128,8 +130,8 @@ function dessineBarre() {
 	ctx.fill();
 	ctx.closePath();
 }
-// dessineBarre();
 
+// 4 - création du tableau des briques et des cellules par double boucle for
 // Tableau avec toutes les briques
 const briques = [];
 for (let i = 0; i < nbRow; i++) {
@@ -143,6 +145,7 @@ for (let i = 0; i < nbRow; i++) {
 }
 // console.log(briques);
 
+// 5 - fonction pour dessiner les briques
 function dessineBriques() {
 	for (let i = 0; i < nbRow; i++) {
 		for (let j = 0; j < nbCol; j++) {
@@ -166,9 +169,8 @@ function dessineBriques() {
 		}
 	}
 }
-// dessineBriques();
 
-// Gestion de l'animation et du dessin des formes
+// 6 - Gestion de l'animation et du dessin des formes
 function draw() {
 	if (endGame === false) {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -221,7 +223,7 @@ function draw() {
 	}
 }
 
-// Gestion collision et destruction briques
+// 7 - Gestion collision et destruction briques
 function collisionDetection() {
 	// il faut checker le statut de toutes les briques
 	// cette donciton sera appelée systématiquement dans la fonction draw()
@@ -251,7 +253,7 @@ function collisionDetection() {
 	}
 }
 
-// Déplacement raquette
+// 8 - Déplacement raquette
 
 // 1 - avec la souris
 function mouseMoveBarre(e) {
@@ -296,6 +298,8 @@ function keysMoveBarre(e) {
 		}
 	}
 }
+
+// 9 - Lancer une nouvelle partie
 function newGame() {
 	// Gestion NewGame
 	canvas.addEventListener("click", () => {
