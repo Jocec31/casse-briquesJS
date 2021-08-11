@@ -89,15 +89,27 @@ let score = 0;
 // ----------------------------------------------
 
 function initGame() {
-	dessineBriques();
-	dessineBalle();
-	dessineBarre();
-	document.addEventListener("keypress", (e) => {
-		if (e.keyCode === 32) {
-			console.log(e.keyCode);
-			draw();
-		}
-	});
+	if (
+		navigator.userAgent.match(/iPhone/i) ||
+		navigator.userAgent.match(/webOS/i) ||
+		navigator.userAgent.match(/Android/i) ||
+		navigator.userAgent.match(/iPad/i) ||
+		navigator.userAgent.match(/iPod/i) ||
+		navigator.userAgent.match(/BlackBerry/i) ||
+		navigator.userAgent.match(/Windows Phone/i)
+	) {
+		draw();
+	} else {
+		dessineBriques();
+		dessineBalle();
+		dessineBarre();
+		document.addEventListener("keypress", (e) => {
+			if (e.keyCode === 32) {
+				console.log(e.keyCode);
+				draw();
+			}
+		});
+	}
 }
 
 function dessineBalle() {
