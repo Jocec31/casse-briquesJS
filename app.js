@@ -217,11 +217,11 @@ function draw() {
 
 				// stockage du score dans le local storage
 				if (endGame === true) {
-					if (!localStorage.getItem("score")) {
+					if (localStorage.getItem("score")) {
 						// console.log(score);
+						compareScores(score);
 						storeScore(score);
 					} else {
-						compareScores(score);
 						storeScore(score);
 					}
 				}
@@ -324,7 +324,8 @@ function storeScore(score) {
 	}
 }
 function compareScores(score) {
-	let scoreStored = localStorage.getItem("score");
+	let scoreStored = localStorage["score"];
+	// console.log(scoreStored);
 	if (score == scoreStored) {
 		statsScore.innerText = `Votre meilleur score ${scoreStored} - Nouveau score : ${score} ! EGALITE !`;
 	} else if (score > scoreStored) {
