@@ -30,7 +30,8 @@ canvas {
 }
 
 h2.score,
-p.win-lose {
+p.win-lose,
+p.stats-score {
 	margin-top: 1em;
 	text-align: center;
 	/* background-color: yellow; */

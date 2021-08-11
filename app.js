@@ -7,7 +7,7 @@ const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 let displayScore = document.querySelector(".score");
 let winLose = document.querySelector(".win-lose");
-
+let statsScore = document.querySelector(".stats-score");
 // variables balle et barre
 let rayonBalle = 10,
 	barreHeight = 12,
@@ -106,7 +106,7 @@ function initGame() {
 		dessineBarre();
 		document.addEventListener("keypress", (e) => {
 			if (e.keyCode === 32) {
-				console.log(e.keyCode);
+				// console.log(e.keyCode);
 				draw();
 			}
 		});
@@ -214,6 +214,17 @@ function draw() {
 				endGame = true;
 				winLose.innerText =
 					"Vous avez perdu. Cliquez sur le jeu pour recommencer";
+
+				// stockage du score dans le local storage
+				if (endGame === true) {
+					if (!localStorage.getItem("score")) {
+						// console.log(score);
+						storeScore(score);
+					} else {
+						compareScores(score);
+						storeScore(score);
+					}
+				}
 			}
 		}
 		// on crée l'animation
@@ -226,7 +237,7 @@ function draw() {
 // 7 - Gestion collision et destruction briques
 function collisionDetection() {
 	// il faut checker le statut de toutes les briques
-	// cette donciton sera appelée systématiquement dans la fonction draw()
+	// cette fonction sera appelée systématiquement dans la fonction draw()
 	for (let i = 0; i < nbRow; i++) {
 		for (let j = 0; j < nbCol; j++) {
 			let currentBrique = briques[i][j];
@@ -243,9 +254,14 @@ function collisionDetection() {
 					displayScore.innerText = `Score : ${score}`;
 
 					if (score === nbCol * nbRow) {
-						fin = true;
+						endGame = true;
 						winLose.innerText =
 							"Vous avez gagné ! Cliquez sur le jeu pour recommencer";
+						if (!localStorage.getItem("score")) {
+							storeScore(score);
+						} else {
+							compareScores(score);
+						}
 					}
 				}
 			}
@@ -298,8 +314,26 @@ function keysMoveBarre(e) {
 		}
 	}
 }
-
-// 9 - Lancer une nouvelle partie
+// 9 - stocker le score dans le local storage et comparer les socres anciens et nouveaux
+function storeScore(score) {
+	if (!localStorage.getItem("score")) {
+		localStorage.setItem("score", score);
+	}
+	if (score > localStorage.getItem("score")) {
+		localStorage.setItem("score", score);
+	}
+}
+function compareScores(score) {
+	let scoreStored = localStorage.getItem("score");
+	if (score == scoreStored) {
+		statsScore.innerText = `Votre meilleur score ${scoreStored} - Nouveau score : ${score} ! EGALITE !`;
+	} else if (score > scoreStored) {
+		statsScore.innerText = `Votre meilleur score  ${scoreStored} - Nouveau score : ${score} ! BRAVO !`;
+	} else if (score < scoreStored) {
+		statsScore.innerText = `Votre meilleur score  ${scoreStored} - Nouveau score : ${score} ! BOF BOF !`;
+	}
+}
+// 10 - Lancer une nouvelle partie
 function newGame() {
 	// Gestion NewGame
 	canvas.addEventListener("click", () => {
